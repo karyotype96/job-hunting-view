@@ -1,16 +1,10 @@
 package main
 
 import (
-	"net/http"
-
-	"github.com/gin-gonic/gin"
+	"github.com/karyotype96/job-hunting-view/api/router"
 )
 
 func main() {
-	r := gin.Default()
-	r.GET("/ping", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "api ok",
-		})
-	})
+	r := router.CreateRouter()
+	r.Run(":4001")
 }

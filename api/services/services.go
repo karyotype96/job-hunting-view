@@ -2,7 +2,7 @@ package services
 
 import (
 	"database/sql"
-	_ "log"
+	"errors"
 	"os"
 	"time"
 
@@ -48,20 +48,17 @@ func InitDatabase() {
 func GetRecords(status *utils.ApplicationStatus) ([]models.Record, error) {
 	var results []models.Record
 	var queryResult *sql.Rows
-	var err error
+	var queryParams []any
 
 	query := `SELECT id, companyName, status, timeApplied FROM records`
 	if status != nil {
-		query += ` WHERE status = ?`
-		queryResult, err = DB.Query(query, status)
-		if err != nil {
-			panic(err)
-		}
-	} else {
-		queryResult, err = DB.Query(query)
-		if err != nil {
-			panic(err)
-		}
+		query += ` WHERE status = ?;`
+		queryParams = append(queryParams, *status)
+	}
+
+	queryResult, err := DB.Query(query, queryParams...)
+	if err != nil {
+		return results, errors.New("failed to get records from database")
 	}
 
 	for (*queryResult).Next() {
@@ -73,7 +70,7 @@ func GetRecords(status *utils.ApplicationStatus) ([]models.Record, error) {
 			&newResult.TimeApplied,
 		)
 		if err != nil {
-			panic(err)
+			return results, errors.New("failed to scan sql rows into record")
 		}
 
 		results = append(results, newResult)
@@ -89,7 +86,7 @@ func AddRecord(record models.Record) (models.Record, error) {
 	query := `INSERT INTO records (companyName, status, timeApplied) VALUES (?, ?, ?);`
 	result, err := DB.Exec(query, resultRecord.CompanyName, resultRecord.Status, resultRecord.TimeApplied)
 	if err != nil {
-		panic(err)
+		return resultRecord, errors.New("failed to insert new record into table")
 	}
 
 	record.ID, err = result.LastInsertId()

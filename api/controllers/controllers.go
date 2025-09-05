@@ -32,6 +32,7 @@ func GetRecords(c *gin.Context) {
 
 	records, err := services.GetRecords(status)
 	if err != nil {
+		log.Printf("Error: %v\n", err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Records could not be accessed."})
 		return
 	}

@@ -93,3 +93,13 @@ func AddRecord(record models.Record) (models.Record, error) {
 
 	return resultRecord, err
 }
+
+func ChangeRecord(record models.Record, id int64) error {
+	query := `UPDATE records SET companyName = ?, status = ?, timeApplied = ? WHERE id = ?`
+	_, err := DB.Exec(query, record.CompanyName, record.Status, record.TimeApplied, id)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

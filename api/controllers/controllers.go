@@ -52,13 +52,32 @@ func CreateRecord(c *gin.Context) {
 	newRecord, err := services.AddRecord(newRecord)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Record was not added properly"})
+		return
 	}
 
 	c.JSON(http.StatusCreated, newRecord)
 }
 
 func UpdateRecord(c *gin.Context) {
+	var jsonRecord models.Record
 
+	if err := c.ShouldBindJSON(&jsonRecord); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid JSON body"})
+		log.Println("Error: request body JSON could not bind to record struct")
+		return
+	}
+
+	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "invalid ID"})
+	}
+
+	err = services.ChangeRecord(jsonRecord, id)
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Could not change record"})
+	}
+
+	c.JSON(http.StatusNoContent, gin.H{})
 }
 
 func DeleteRecord(c *gin.Context) {

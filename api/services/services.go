@@ -103,3 +103,13 @@ func ChangeRecord(record models.Record, id int64) error {
 
 	return nil
 }
+
+func RemoveRecord(id int64) error {
+	query := `DELETE FROM records WHERE id = ?`
+	_, err := DB.Exec(query, id)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

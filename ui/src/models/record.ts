@@ -1,18 +1,24 @@
-import _ from "lodash"
-import { Status } from "../utils/enums";
+import { Applied } from "../utils/enums";
 import { observable } from "mobx";
-import moment, { Moment } from "moment";
+import moment from "moment";
+
+interface IRecord {
+    id?: number;
+    companyName?: string;
+    status?: number;
+    timeApplied?: moment.Moment;
+}
 
 export class Record {
     @observable id: number;
     @observable companyName: string;
-    @observable status: Status;
-    @observable timeApplied: Moment;
+    @observable status: number;
+    @observable timeApplied: moment.Moment;
 
-    constructor(data: any){
-        this.id = data.id
-        this.companyName = data.companyName;
-        this.status = data.status;
+    constructor(data: IRecord){
+        this.id = (data.id) ? data.id : -1;
+        this.companyName = (data.companyName) ? data.companyName : "";
+        this.status = (data.status) ? data.status : Applied;
         this.timeApplied = moment(data.timeApplied);
     }
 }

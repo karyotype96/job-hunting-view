@@ -1,7 +1,7 @@
 import { action, observable, runInAction } from "mobx";
 import { Record } from "../models/record";
 import { RootStore } from "./root-store";
-import { AgentMethods } from "../utils/agent";
+import { getRecords } from "../utils/agent";
 
 export class RecordStore {
     rootStore: RootStore;
@@ -19,7 +19,7 @@ export class RecordStore {
 
     @action async loadRecords(){
         this.loading = true;
-        this.records = await AgentMethods.getRecords();
+        this.records = await getRecords();
 
         runInAction(() => {
             this.loading = false;

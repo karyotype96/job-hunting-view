@@ -16,9 +16,9 @@ func Ping(c *gin.Context) {
 }
 
 func GetRecords(c *gin.Context) {
-	var status *utils.ApplicationStatus
-
 	c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+
+	var status *utils.ApplicationStatus
 
 	statusParam := c.Query("status")
 	if statusParam != "" {
@@ -46,6 +46,8 @@ func GetRecords(c *gin.Context) {
 }
 
 func CreateRecord(c *gin.Context) {
+	c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+
 	var newRecord models.Record
 
 	if err := c.ShouldBindJSON(&newRecord); err != nil {
@@ -64,6 +66,8 @@ func CreateRecord(c *gin.Context) {
 }
 
 func UpdateRecord(c *gin.Context) {
+	c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+
 	var jsonRecord models.Record
 
 	if err := c.ShouldBindJSON(&jsonRecord); err != nil {
@@ -88,6 +92,8 @@ func UpdateRecord(c *gin.Context) {
 }
 
 func DeleteRecord(c *gin.Context) {
+	c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+
 	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID"})

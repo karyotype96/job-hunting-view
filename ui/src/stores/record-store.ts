@@ -1,4 +1,4 @@
-import { action, observable, runInAction } from "mobx";
+import { action, observable } from "mobx";
 import { Record } from "../models/record";
 import { getRecords } from "../utils/agent";
 
@@ -15,10 +15,10 @@ export class RecordStore {
 
     @action async loadRecords(){
         this.loading = true;
-        this.records = await getRecords();
-
-        runInAction(() => {
+        
+        getRecords().then((newRecords) => {
+            this.records = newRecords;
             this.loading = false;
-        })
+        });
     }
 }

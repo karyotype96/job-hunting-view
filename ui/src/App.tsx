@@ -1,17 +1,10 @@
 import React from 'react'
-import type { RootStore } from './stores/root-store';
+import { RecordStore } from './stores/record-store';
 import { Header, Menu, MenuItem, type MenuItemProps } from 'semantic-ui-react';
 import _ from 'lodash';
 import "./App.css"
 import { Homepage } from './components/homepage';
-
-interface IMainViewProps {
-  rootStore?: RootStore;
-}
-
-interface IMainViewState {
-  option: string;
-}
+import { inject, observer } from 'mobx-react';
 
 const menuOptions = [
   "Main View",
@@ -19,6 +12,16 @@ const menuOptions = [
 ]
 const menuItemPrefix = "option"
 
+
+interface IMainViewProps {
+  recordStore?: RecordStore;
+}
+
+interface IMainViewState {
+  option: string;
+}
+
+@inject("recordStore") @observer
 export default class App extends React.Component<IMainViewProps, IMainViewState> {
 
   constructor(props: IMainViewProps){
@@ -31,12 +34,14 @@ export default class App extends React.Component<IMainViewProps, IMainViewState>
 
   handleMenuItemClick = (_e: React.MouseEvent<HTMLAnchorElement>, data: MenuItemProps) => {
     if (data.name){
-      console.log(data.name);
-
       this.setState({
         option: data.name
       });
     }
+  }
+
+  componentDidMount(): void {
+    this.props.recordStore?.loadRecords();
   }
 
   render(): React.ReactNode {
@@ -56,7 +61,7 @@ export default class App extends React.Component<IMainViewProps, IMainViewState>
             })}
           </Menu>
           { this.state.option == menuItemPrefix + 0 && 
-            <Homepage recordStore={this.props.rootStore?.recordStore}/>
+            <Homepage records={this.props.recordStore?.records}/>
           }
         </div>
       )

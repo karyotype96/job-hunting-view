@@ -1,24 +1,23 @@
 import React from "react";
-import type { RecordStore } from "../stores/record-store";
 import { Dimmer, Loader, Segment, Table } from "semantic-ui-react";
 import _ from "lodash";
 import type { Record } from "../models/record";
 import { Accepted, Rejected } from "../utils/enums";
 import moment from "moment";
+import { inject, observer } from "mobx-react";
 
 interface IHomepageProps {
-    recordStore?: RecordStore;
+    records?: Record[];
 }
 
 type IHomepageState = object
 
 const headerStyle = {"backgroundColor": "lightgreen", "color": "black", "border": "1px solid grey"}
 
+@inject("recordStore") @observer
 export class Homepage extends React.Component<IHomepageProps, IHomepageState> {
     constructor(props: IHomepageProps){
         super(props)
-
-        this.props.recordStore?.loadRecords();
     }
 
     writeStatusCell = (record: Record) => {
@@ -36,7 +35,7 @@ export class Homepage extends React.Component<IHomepageProps, IHomepageState> {
     }
 
     render(): React.ReactNode {
-        if (!this.props.recordStore){
+        if (!this.props.records){
             return <Dimmer active={true} as={Segment}>
                 <Loader>Loading...</Loader>
             </Dimmer>
@@ -53,7 +52,7 @@ export class Homepage extends React.Component<IHomepageProps, IHomepageState> {
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    { _.map(this.props.recordStore?.records, (record: Record) => {
+                    { _.map(this.props.records, (record: Record) => {
                         return <Table.Row>
                             <Table.Cell>
                                 { record.companyName }

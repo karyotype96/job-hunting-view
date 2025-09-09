@@ -18,6 +18,8 @@ func Ping(c *gin.Context) {
 func GetRecords(c *gin.Context) {
 	var status *utils.ApplicationStatus
 
+	c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+
 	statusParam := c.Query("status")
 	if statusParam != "" {
 		parsedStatus, err := strconv.Atoi(statusParam)
@@ -37,7 +39,10 @@ func GetRecords(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, records)
+	c.JSON(http.StatusOK, gin.H{
+		// "Access-Control-Allow-Origin": "*",
+		"data": records,
+	})
 }
 
 func CreateRecord(c *gin.Context) {

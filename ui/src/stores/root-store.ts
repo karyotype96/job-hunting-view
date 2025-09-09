@@ -4,6 +4,6 @@ export class RootStore {
     recordStore: RecordStore;
 
     constructor(){
-        this.recordStore = new RecordStore(this);
+        this.recordStore = new RecordStore();
     }
 }

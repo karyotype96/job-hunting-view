@@ -1,0 +1,39 @@
+import type IRecord from "$lib/utils/record";
+import _ from "lodash";
+import moment from "moment";
+
+export const recordStore = $state({
+    loading: true,
+    records: new Array<IRecord>(),
+    currentRecordID: -1,
+});
+
+export const loadRecords = async () => {
+    recordStore.loading = true;
+    
+    try {
+        const response = await fetch("http://localhost:4001/api/records");
+        if (!response.ok){
+            return;
+        }
+        const data = await response.json();
+        const recordArray = new Array<IRecord>();
+
+        _.forEach(data["data"], (rec) => {
+            let newRecord: IRecord = {
+                id: rec.id,
+                companyName: rec.companyName,
+                status: rec.status,
+                timeApplied: moment(rec.timeApplied)
+            }
+
+            recordArray.push(newRecord);
+        })
+
+        recordStore.records = recordArray;
+    } catch (err) {
+        // error(err);
+    } finally {
+        recordStore.loading = false;
+    }
+}

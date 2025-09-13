@@ -1,10 +1,8 @@
-import type { Moment } from "moment";
-
 export default interface IRecord {
     id: number;
     companyName: string;
     status: number;
-    timeApplied: Moment;
+    timeApplied: Date;
 }
 
 export const Applied = 1;

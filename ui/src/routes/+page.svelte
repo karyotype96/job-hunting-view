@@ -2,15 +2,11 @@
     import { Accepted, Applied, Rejected } from "$lib/utils/record";
     import { onMount } from "svelte";
     import _ from "lodash";
-    import moment from "moment";
     import AppContainer from "$lib/components/AppContainer.svelte";
     import { recordStore, loadRecords } from "$lib/components/global/globalState.svelte";
+    import { diffMonths } from "$lib/utils/helpers";
 
     let filterValue = $state('');
-
-    function onFilterUpdate(){
-
-    }
 
     onMount(async () => {
         await loadRecords();
@@ -44,9 +40,9 @@
             {#if rec.companyName.includes(filterValue)}
                 <tr>
                     <td>{rec.companyName}</td>
-                    <td>{rec.timeApplied.format("MM/DD/YYYY")}</td>
+                    <td>{rec.timeApplied.toLocaleDateString()}</td>
                     {#if rec.status == Applied}
-                        {#if moment().diff(rec.timeApplied, 'months', true) > 1}
+                        {#if diffMonths(new Date(), rec.timeApplied) > 1}
                             <td class='disabled'>Ghosted...</td>
                         {:else}
                             <td>Applied</td>

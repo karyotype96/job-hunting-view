@@ -7,6 +7,7 @@
     import AppContainer from "$lib/components/AppContainer.svelte";
     import moment from "moment";
     import BarChart from "$lib/components/BarChart.svelte";
+    import { diffMonths } from "$lib/utils/helpers";
 
     let totals = $state({
         applied: 0,
@@ -24,7 +25,7 @@
 
         recordStore.records.forEach(rec => {
             if (rec.status == Applied){
-                if (moment().diff(rec.timeApplied, 'months', true) > 1){
+                if (diffMonths(new Date(), rec.timeApplied) > 1){
                     totals.ghosted += 1;
                 } else {
                     totals.applied += 1;

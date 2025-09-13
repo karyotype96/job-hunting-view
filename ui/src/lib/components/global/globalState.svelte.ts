@@ -24,7 +24,7 @@ export const loadRecords = async () => {
                 id: rec.id,
                 companyName: rec.companyName,
                 status: rec.status,
-                timeApplied: moment(rec.timeApplied)
+                timeApplied: new Date(rec.timeApplied)
             }
 
             recordArray.push(newRecord);

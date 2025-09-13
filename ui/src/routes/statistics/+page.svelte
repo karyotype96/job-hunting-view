@@ -5,10 +5,41 @@
     import { Accepted, Applied, Rejected } from "$lib/utils/record";
     import { loadRecords, recordStore } from "$lib/components/global/globalState.svelte";
     import AppContainer from "$lib/components/AppContainer.svelte";
+    import moment from "moment";
+    import BarChart from "$lib/components/BarChart.svelte";
+
+    let totals = $state({
+        applied: 0,
+        ghosted: 0,
+        rejected: 0,
+        accepted: 0
+    });
+
+    let data = $derived([totals.applied, totals.ghosted, totals.rejected, totals.accepted]);
+    let total = $derived(totals.applied + totals.ghosted + totals.rejected + totals.accepted);
 
     onMount(async () => {
         await loadRecords();
-    })
+        recordStore.loading = true;
+
+        recordStore.records.forEach(rec => {
+            if (rec.status == Applied){
+                if (moment().diff(rec.timeApplied, 'months', true) > 1){
+                    totals.ghosted += 1;
+                } else {
+                    totals.applied += 1;
+                }
+            } else if (rec.status == Rejected){
+                totals.rejected += 1;
+            } else if (rec.status == Accepted){
+                totals.accepted += 1;
+            }
+        });
+
+        recordStore.loading = false;
+    });
+
+    $inspect(totals);
 </script>
 
 <AppContainer menuIndex=2>
@@ -18,10 +49,28 @@
     <table class='ui celled table'>
         <thead>
             <tr>
-                <th style='width: 80%'>Chart</th>
+                <th style='width: 75%'>Chart</th>
                 <th>Statuses</th>
             </tr>
         </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <BarChart 
+                        labels={['Applied', 'Ghosted', 'Rejected', 'Accepted']}
+                        {data}
+                        colors={[
+                            'rgb(71, 166, 255)',
+                            'rgb(60, 83, 105)',
+                            'rgb(176, 4, 4)',
+                            'rgb(0, 255, 0)'
+                        ]}
+                        {total}
+                    />
+                </td>
+                <td></td>
+            </tr>
+        </tbody>
     </table>
     {/if}
 </AppContainer>

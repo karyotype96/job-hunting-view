@@ -5,7 +5,6 @@
     import { Accepted, Applied, Rejected } from "$lib/utils/record";
     import { loadRecords, recordStore } from "$lib/components/global/globalState.svelte";
     import AppContainer from "$lib/components/AppContainer.svelte";
-    import moment from "moment";
     import BarChart from "$lib/components/BarChart.svelte";
     import { diffMonths } from "$lib/utils/helpers";
 

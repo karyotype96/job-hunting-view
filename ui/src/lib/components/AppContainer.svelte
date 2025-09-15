@@ -4,7 +4,7 @@
     let menuLabels = [
         ['Main Page', '/'],
         ['Statistics', '/statistics'],
-        ['Add New Job Record', '/']
+        ['Add New Job Record', '/edit/new']
     ]
 </script>
 

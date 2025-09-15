@@ -1,6 +1,5 @@
 <script lang="ts">
     import _ from "lodash";
-    import { onMount } from "svelte";
 
     let { labels, data, colors, total } = $props();
 
@@ -12,7 +11,7 @@
         <tr>
             {#each data as d, i}
             <td class='bar-holder' style="width: {widthPercent}">
-                <div class='bar' style="background: {colors[i]}; height: {d * 100 / total}%;"></div>
+                <div class='bar {labels[i]}' style="background: {colors[i]}; height: {d * 100 / total}%;"></div>
             </td>
             {#if i < data.length-1}
             <td class='graph-gap'></td>

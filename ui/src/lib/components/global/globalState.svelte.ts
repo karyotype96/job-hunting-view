@@ -1,6 +1,5 @@
 import type IRecord from "$lib/utils/record";
 import _ from "lodash";
-import moment from "moment";
 
 export const recordStore = $state({
     loading: true,

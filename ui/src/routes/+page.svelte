@@ -36,7 +36,7 @@
     <table class='ui celled table'>
         <thead>
             <tr>
-                <th colspan=4>
+                <th colspan=4 style='position: sticky; top: 0;'>
                     <div class='ui left icon input'>
                         <i class='search icon'></i>
                         <input type='text' placeholder="Filter by title..." bind:value={filterValue}>
@@ -44,10 +44,10 @@
                 </th>
             </tr>
             <tr>
-                <th>Company Name</th>
-                <th>Application Date</th>
-                <th>Status</th>
-                <th style='text-align: center'>Edit/Delete</th>
+                <th style='position: sticky; top: 64px;'>Company Name</th>
+                <th style='position: sticky; top: 64px;'>Application Date</th>
+                <th style='position: sticky; top: 64px;'>Status</th>
+                <th style='position: sticky; top: 64px; text-align: center'>Edit/Delete</th>
             </tr>
         </thead>
         <tbody>

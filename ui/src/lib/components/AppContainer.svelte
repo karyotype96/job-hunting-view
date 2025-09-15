@@ -22,3 +22,10 @@
         {@render children?.()}
     </div>
 </div>
+
+<style>
+    .ui.bottom.attached.segment {
+        max-height: 80vh;
+        overflow-y: scroll;
+    }
+</style>

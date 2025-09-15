@@ -26,7 +26,7 @@ export const loadRecords = async () => {
                 timeApplied: new Date(rec.timeApplied)
             }
 
-            recordArray.push(newRecord);
+            recordArray.unshift(newRecord);
         })
 
         recordStore.records = recordArray;

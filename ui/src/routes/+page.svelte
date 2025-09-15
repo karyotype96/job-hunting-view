@@ -4,13 +4,28 @@
     import _ from "lodash";
     import AppContainer from "$lib/components/AppContainer.svelte";
     import { recordStore, loadRecords } from "$lib/components/global/globalState.svelte";
-    import { dateToLocaleString, dateToString, diffMonths } from "$lib/utils/helpers";
+    import { dateToLocaleString, diffMonths } from "$lib/utils/helpers";
 
     let filterValue = $state('');
 
     onMount(async () => {
         await loadRecords();
     });
+
+    async function deleteRecord(id: number){
+        let isDeleted = confirm("Delete this company? Warning: this can not be undone!");
+
+        if (isDeleted){
+            const requestOptions = {
+                method: 'DELETE',
+            };
+
+            recordStore.loading = true;
+            fetch(`http://localhost:4001/api/records/${id}`, requestOptions).then(async response => {
+                await loadRecords();
+            })
+        }
+    }
 </script>
 
 <AppContainer menuIndex=1>
@@ -32,7 +47,7 @@
                 <th>Company Name</th>
                 <th>Application Date</th>
                 <th>Status</th>
-                <th>Edit/Delete</th>
+                <th style='text-align: center'>Edit/Delete</th>
             </tr>
         </thead>
         <tbody>
@@ -54,9 +69,9 @@
                     {:else}
                         <td class='warning'>error: status</td>
                     {/if}
-                    <td>
-                        <a href='/edit/{rec.id}' aria-label='Edit record'><i class='edit icon'></i></a>
-                        <i class='eraser icon'></i>
+                    <td style='text-align: center'>
+                        <a href='/edit/{rec.id}' aria-label='Edit record'><i class='large edit icon'></i></a>
+                        <a href='#top' aria-label='Delete record' onclick={() => {deleteRecord(rec.id)}}><i class='large eraser icon'></i></a>
                     </td>
                 </tr>
             {/if}

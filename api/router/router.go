@@ -3,10 +3,13 @@ package router
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/karyotype96/job-hunting-view/api/controllers"
+	"github.com/karyotype96/job-hunting-view/api/middleware"
 )
 
 func CreateRouter() *gin.Engine {
 	r := gin.Default()
+
+	r.Use(middleware.CORSMiddleware())
 
 	r.GET("/api/ping", controllers.Ping)
 

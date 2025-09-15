@@ -68,7 +68,15 @@
                         {total}
                     />
                 </td>
-                <td></td>
+                <td>
+                    <ul>
+                        <li>Applied:  {totals.applied}</li>
+                        <li>Ghosted:  {totals.ghosted}</li>
+                        <li>Rejected: {totals.rejected}</li>
+                        <li>Accepted: {totals.accepted}</li>
+                        <li><b>Total: {total}</b></li>
+                    </ul>
+                </td>
             </tr>
         </tbody>
     </table>

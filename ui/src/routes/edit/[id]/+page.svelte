@@ -2,8 +2,19 @@
     import AppContainer from '$lib/components/AppContainer.svelte';
     import { recordStore } from '$lib/components/global/globalState.svelte';
     import { Accepted, Applied, Rejected } from '$lib/utils/record';
+    import { dateToString } from '$lib/utils/helpers.js';
+    import { onMount } from 'svelte';
 
     let { data } = $props();
+
+    let selectedDateString = $state('');
+
+    onMount(() => {
+        let date = data.timeApplied;
+
+        selectedDateString = dateToString(date);
+        console.log(selectedDateString);
+    })
 
     let record = $state({...data})
     let formAction = (record.id == -1) ? "create" : "update";
@@ -36,8 +47,8 @@
         </div>
 
         <div class='field'>
-            <label>Application Date: 
-                <input required name='timeApplied' class='half-size' type='date' bind:value={record.timeApplied}>
+            <label for='date-input'>Application Date: 
+                <input required name='timeApplied' class='half-size' type='date' bind:value={selectedDateString}>
             </label>
         </div>
 

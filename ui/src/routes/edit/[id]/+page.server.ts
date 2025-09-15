@@ -55,7 +55,7 @@ export const actions = {
             id: -1,
             companyName: companyName.toString(),
             status: parseInt(status.toString()),
-            timeApplied: new Date(timeApplied.toString())
+            timeApplied: new Date(timeApplied.toString()).toISOString()
         }
 
         console.log("body: " + JSON.stringify(body));

@@ -4,7 +4,7 @@
     import _ from "lodash";
     import AppContainer from "$lib/components/AppContainer.svelte";
     import { recordStore, loadRecords } from "$lib/components/global/globalState.svelte";
-    import { diffMonths } from "$lib/utils/helpers";
+    import { dateToLocaleString, dateToString, diffMonths } from "$lib/utils/helpers";
 
     let filterValue = $state('');
 
@@ -40,7 +40,7 @@
             {#if rec.companyName.includes(filterValue)}
                 <tr>
                     <td>{rec.companyName}</td>
-                    <td>{rec.timeApplied.toLocaleDateString()}</td>
+                    <td>{dateToLocaleString(rec.timeApplied)}</td>
                     {#if rec.status == Applied}
                         {#if diffMonths(new Date(), rec.timeApplied) > 1}
                             <td class='disabled'>Ghosted...</td>
@@ -55,7 +55,7 @@
                         <td class='warning'>error: status</td>
                     {/if}
                     <td>
-                        <i class='edit icon'></i>
+                        <a href='/edit/{rec.id}' aria-label='Edit record'><i class='edit icon'></i></a>
                         <i class='eraser icon'></i>
                     </td>
                 </tr>

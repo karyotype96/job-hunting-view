@@ -6,3 +6,19 @@ export function diffMonths(date1: Date, date2: Date){
 
     return Math.round(diff);
 }
+
+export function dateToString(date: Date){
+    let month = String(date.getMonth() + 1).padStart(2, '0');
+    let day = String(date.getDate() + 1).padStart(2, '0');
+    let year = String(date.getFullYear());
+
+    return `${year}-${month}-${day}`;
+}
+
+export function dateToLocaleString(date: Date){
+    let month = String(date.getMonth() + 1).padStart(2, '0');
+    let day = String(date.getDate() + 1).padStart(2, '0');
+    let year = String(date.getFullYear());
+
+    return `${month}/${day}/${year}`;
+}

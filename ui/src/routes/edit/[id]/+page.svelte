@@ -17,7 +17,7 @@
     })
 
     let record = $state({...data})
-    let formAction = (record.id == -1) ? "create" : "update";
+    let formAction = (record.id == -1) ? "create" : "update"
 </script>
 
 <AppContainer menuIndex=3>

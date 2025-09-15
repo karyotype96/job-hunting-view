@@ -58,8 +58,6 @@ export const actions = {
             timeApplied: new Date(timeApplied.toString()).toISOString()
         }
 
-        console.log("body: " + JSON.stringify(body));
-
         const requestOptions = {
             method: 'POST',
             headers: {
@@ -78,7 +76,51 @@ export const actions = {
                 throw redirect(303, "/");
             })
     },
-    update: async ({ request }) => {
+    update: async ({ params, request }) => {
+        const data = await request.formData();
+        const id = params.id;
+        const companyName = data.get("companyName");
+        const status = data.get("status");
+        const timeApplied = data.get("timeApplied");
 
+        console.log(params.id);
+
+        if (!id){
+            return fail(400, { companyName: 'Invalid id', missing: true});
+        }
+        if (!companyName){
+            return fail(400, { companyName: 'Invalid company name', missing: true });
+        }
+        if (!status){
+            return fail(400, { status: 'Invalid status', missing: true });
+        }
+        if (!timeApplied){
+            return fail(400, { timeApplied: 'Invalid application date', missing: true });
+        }
+
+        const body = {
+            id: parseInt(id.toString()),
+            companyName: companyName.toString(),
+            status: parseInt(status.toString()),
+            timeApplied: new Date(timeApplied.toString()).toISOString()
+        }
+
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body)
+        };
+
+        await fetch(`http://localhost:4001/api/records/${body.id}`, requestOptions)
+            .then((res) => {
+                const resultStatus = res.status;
+                if (resultStatus != 204){
+                    return fail(resultStatus, { message: 'Record could not be added...'})
+                }
+
+                throw redirect(303, "/");
+            })
     }
 } satisfies Actions;

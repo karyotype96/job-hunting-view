@@ -6,7 +6,8 @@
     import { recordStore, loadRecords } from "$lib/components/global/globalState.svelte";
     import { dateToLocaleString, diffMonths } from "$lib/utils/helpers";
 
-    let filterValue = $state('');
+    let companyNameValue = $state('');
+    let jobTitleValue = $state('');
 
     onMount(async () => {
         await loadRecords();
@@ -39,7 +40,11 @@
                 <th colspan=5 style='position: sticky; top: 0;'>
                     <div class='ui left icon input'>
                         <i class='search icon'></i>
-                        <input type='text' placeholder="Filter by title..." bind:value={filterValue}>
+                        <input type='text' placeholder="Filter by company name..." bind:value={companyNameValue}>
+                    </div>
+                    <div class='ui left icon input'>
+                        <i class='search icon'></i>
+                        <input type='text' placeholder="Filter by job title..." bind:value={jobTitleValue}>
                     </div>
                 </th>
             </tr>
@@ -53,7 +58,8 @@
         </thead>
         <tbody>
         {#each recordStore.records as rec}
-            {#if rec.companyName.includes(filterValue)}
+            {#if rec.companyName.toLowerCase().includes(companyNameValue.toLowerCase()) 
+                && rec.jobTitle.toLowerCase().includes(jobTitleValue.toLowerCase())}
                 <tr>
                     <td>{rec.companyName}</td>
                     <td>{rec.jobTitle}</td>

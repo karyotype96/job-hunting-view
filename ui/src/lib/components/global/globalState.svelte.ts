@@ -22,6 +22,7 @@ export const loadRecords = async () => {
             let newRecord: IRecord = {
                 id: rec.id,
                 companyName: rec.companyName,
+                jobTitle: rec.jobTitle,
                 status: rec.status,
                 timeApplied: new Date(rec.timeApplied)
             }

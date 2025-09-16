@@ -36,7 +36,7 @@
     <table class='ui celled table'>
         <thead>
             <tr>
-                <th colspan=4 style='position: sticky; top: 0;'>
+                <th colspan=5 style='position: sticky; top: 0;'>
                     <div class='ui left icon input'>
                         <i class='search icon'></i>
                         <input type='text' placeholder="Filter by title..." bind:value={filterValue}>
@@ -45,6 +45,7 @@
             </tr>
             <tr>
                 <th style='position: sticky; top: 64px;'>Company Name</th>
+                <th style='position: sticky; top: 64px;'>Job Title</th>
                 <th style='position: sticky; top: 64px;'>Application Date</th>
                 <th style='position: sticky; top: 64px;'>Status</th>
                 <th style='position: sticky; top: 64px; text-align: center'>Edit/Delete</th>
@@ -55,6 +56,7 @@
             {#if rec.companyName.includes(filterValue)}
                 <tr>
                     <td>{rec.companyName}</td>
+                    <td>{rec.jobTitle}</td>
                     <td>{dateToLocaleString(rec.timeApplied)}</td>
                     {#if rec.status == Applied}
                         {#if diffMonths(new Date(), rec.timeApplied) > 1}

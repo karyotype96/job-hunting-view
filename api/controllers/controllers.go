@@ -38,7 +38,6 @@ func GetRecords(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		// "Access-Control-Allow-Origin": "*",
 		"data": records,
 	})
 }

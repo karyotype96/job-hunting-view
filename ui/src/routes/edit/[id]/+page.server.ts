@@ -10,6 +10,7 @@ export async function load({ params }){
     let record: IRecord = {
         id: -1,
         companyName: "",
+        jobTitle: "",
         status: Applied,
         timeApplied: new Date()
     };
@@ -38,11 +39,15 @@ export const actions = {
     create: async ({ request }) => {
         const data = await request.formData();
         const companyName = data.get("companyName");
+        const jobTitle = data.get("jobTitle");
         const status = data.get("status");
         const timeApplied = data.get("timeApplied");
 
         if (!companyName){
             return fail(400, { companyName: 'Invalid company name', missing: true });
+        }
+        if (!jobTitle){
+            return fail(400, { jobTitle: 'Invalid job title', missing: true });
         }
         if (!status){
             return fail(400, { status: 'Invalid status', missing: true });
@@ -54,6 +59,7 @@ export const actions = {
         const body = {
             id: -1,
             companyName: companyName.toString(),
+            jobTitle: jobTitle.toString(),
             status: parseInt(status.toString()),
             timeApplied: new Date(timeApplied.toString()).toISOString()
         }
@@ -80,16 +86,20 @@ export const actions = {
         const data = await request.formData();
         const id = params.id;
         const companyName = data.get("companyName");
+        const jobTitle = data.get("jobTitle");
         const status = data.get("status");
         const timeApplied = data.get("timeApplied");
 
         console.log(params.id);
 
         if (!id){
-            return fail(400, { companyName: 'Invalid id', missing: true});
+            return fail(400, { companyName: 'Invalid id', missing: true });
         }
         if (!companyName){
             return fail(400, { companyName: 'Invalid company name', missing: true });
+        }
+        if (!jobTitle){
+            return fail(400, { jobTitle: 'Invalid job title', missing: true })
         }
         if (!status){
             return fail(400, { status: 'Invalid status', missing: true });
@@ -101,6 +111,7 @@ export const actions = {
         const body = {
             id: parseInt(id.toString()),
             companyName: companyName.toString(),
+            jobTitle: jobTitle.toString(),
             status: parseInt(status.toString()),
             timeApplied: new Date(timeApplied.toString()).toISOString()
         }

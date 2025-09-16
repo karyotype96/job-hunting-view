@@ -9,6 +9,7 @@ import (
 type Record struct {
 	ID          int64                   `json:"id"`
 	CompanyName string                  `json:"companyName"`
+	JobTitle    string                  `json:"jobTitle"`
 	Status      utils.ApplicationStatus `json:"status"`
 	TimeApplied time.Time               `json:"timeApplied"`
 }

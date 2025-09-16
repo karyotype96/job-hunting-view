@@ -29,7 +29,6 @@
             <label>Company Name: 
             <input
                 name='companyName'
-                class='half-size'
                 placeholder="Enter the name of the company here..."
                 required
                 bind:value={record.companyName}
@@ -37,8 +36,18 @@
         </div>
 
         <div class='field'>
+            <label>Job Title: 
+            <input
+                name='jobTitle'
+                placeholder='Enter job title here...'
+                required
+                bind:value={record.jobTitle}
+            ></label>
+        </div>
+
+        <div class='field'>
             <label>Application Status:
-                <select name='status' class='half-size' bind:value={record.status}>
+                <select name='status' bind:value={record.status}>
                     <option value={Applied}>Applied</option>
                     <option value={Rejected}>Rejected</option>
                     <option value={Accepted}>Accepted</option>
@@ -48,7 +57,7 @@
 
         <div class='field'>
             <label for='date-input'>Application Date: 
-                <input required name='timeApplied' class='half-size' type='date' bind:value={selectedDateString}>
+                <input required name='timeApplied' type='date' bind:value={selectedDateString}>
             </label>
         </div>
 
@@ -56,9 +65,3 @@
     </form>
     {/if}
 </AppContainer>
-
-<style>
-    .half-size {
-        width: 50%;
-    }
-</style>

@@ -1,6 +1,7 @@
 export default interface IRecord {
     id: number;
     companyName: string;
+    jobTitle: string;
     status: number;
     timeApplied: Date;
 }

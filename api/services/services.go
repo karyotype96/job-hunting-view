@@ -36,6 +36,7 @@ func InitDatabase() {
 	query, err := DB.Prepare(`CREATE TABLE IF NOT EXISTS records (
 		id integer NOT NULL PRIMARY KEY AUTOINCREMENT,
 		companyName varchar(255) NOT NULL,
+		jobTitle varchar(255) NOT NULL,
 		status integer NOT NULL,
 		timeApplied timestamp NOT NULL
 	)`)
@@ -50,7 +51,7 @@ func GetRecords(status *utils.ApplicationStatus) ([]models.Record, error) {
 	var queryResult *sql.Rows
 	var queryParams []any
 
-	query := `SELECT id, companyName, status, timeApplied FROM records`
+	query := `SELECT id, companyName, jobTitle, status, timeApplied FROM records`
 	if status != nil {
 		query += ` WHERE status = ?;`
 		queryParams = append(queryParams, *status)
@@ -66,6 +67,7 @@ func GetRecords(status *utils.ApplicationStatus) ([]models.Record, error) {
 		err := (*queryResult).Scan(
 			&newResult.ID,
 			&newResult.CompanyName,
+			&newResult.JobTitle,
 			&newResult.Status,
 			&newResult.TimeApplied,
 		)
@@ -83,8 +85,8 @@ func GetRecords(status *utils.ApplicationStatus) ([]models.Record, error) {
 func AddRecord(record models.Record) (models.Record, error) {
 	resultRecord := record
 
-	query := `INSERT INTO records (companyName, status, timeApplied) VALUES (?, ?, ?);`
-	result, err := DB.Exec(query, resultRecord.CompanyName, resultRecord.Status, resultRecord.TimeApplied)
+	query := `INSERT INTO records (companyName, jobTitle, status, timeApplied) VALUES (?, ?, ?, ?);`
+	result, err := DB.Exec(query, resultRecord.CompanyName, resultRecord.JobTitle, resultRecord.Status, resultRecord.TimeApplied)
 	if err != nil {
 		return resultRecord, errors.New("failed to insert new record into table")
 	}
@@ -95,8 +97,8 @@ func AddRecord(record models.Record) (models.Record, error) {
 }
 
 func ChangeRecord(record models.Record, id int64) error {
-	query := `UPDATE records SET companyName = ?, status = ?, timeApplied = ? WHERE id = ?`
-	_, err := DB.Exec(query, record.CompanyName, record.Status, record.TimeApplied, id)
+	query := `UPDATE records SET companyName = ?, jobTitle = ?, status = ?, timeApplied = ? WHERE id = ?`
+	_, err := DB.Exec(query, record.CompanyName, record.JobTitle, record.Status, record.TimeApplied, id)
 	if err != nil {
 		return err
 	}
